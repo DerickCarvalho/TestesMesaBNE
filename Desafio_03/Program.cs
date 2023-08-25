@@ -113,7 +113,6 @@ class FutureRent {
 class CalcWithDraw {
     private double atualValue;
     private double futureValue;
-    private double withDraw;
     private double Tariff;
     private double dayTariff;
     private int months = 8;
@@ -125,7 +124,6 @@ class CalcWithDraw {
         int perMonth = 1;
         int secPerMonth = 1;
         double beforeWithdraw = 0;
-        double beforeMonths = 0;
 
         while (counter <= numCalcs) {
             Console.Write("\n\nDigite a percentagem de juros (apenas números)\n-> ");
@@ -145,19 +143,16 @@ class CalcWithDraw {
                 if (perMonth <= 5) {
                     this.futureValue = this.atualValue * Math.Pow((1 + this.Tariff), perMonth);
                     Console.Write($"--| {perMonth,7} | {atualValue.ToString("C"),10} | {this.Tariff * 100,5} % | {(this.futureValue - this.atualValue).ToString("C"),15} | {this.futureValue.ToString("C"),15} |--\n");
-                    beforeWithdraw = (this.futureValue - this.atualValue);
                 }
 
                 if (perMonth == 5) { 
                     Console.Write("\nDigite o valor a ser sacado: ");
-                    withDraw = double.Parse(Console.ReadLine());
-                    beforeWithdraw = beforeWithdraw + (atualValue - withDraw);
+                    beforeWithdraw = this.futureValue - double.Parse(Console.ReadLine());
                     Console.Write("\n---------------------------------------------------------------------------\n");            
                 }
                 else if (perMonth >= 6) {
                     this.futureValue = beforeWithdraw * Math.Pow((1 + this.Tariff), secPerMonth);
-                    Console.Write($"--| {secPerMonth,7} | {beforeWithdraw.ToString("C"),10} | {this.Tariff * 100,5} % | {(this.futureValue - beforeWithdraw).ToString("C"),15} | {this.futureValue.ToString("C"),15} |--\n");                    
-                    beforeMonths = this.futureValue;
+                    Console.Write($"--| {secPerMonth,7} | {beforeWithdraw.ToString("C"),10} | {this.Tariff * 100,5} % | {(this.futureValue - beforeWithdraw).ToString("C"),15} | {this.futureValue.ToString("C"),15} |--\n");
                     secPerMonth++;
 
                 }
@@ -172,8 +167,8 @@ class CalcWithDraw {
         Console.Write("--| PERÍODO | VALOR ATUAL | % JUROS | VAL. RENDIMENTO | REND. ACUMULADO |--\n");
 
         while (counter <= this.days) {
-            this.futureValue = beforeMonths * Math.Pow((1 + this.dayTariff), counter);
-            Console.Write($"--| {counter,7} | {beforeMonths.ToString("C"),10} | {this.dayTariff * 100,5} % | {(this.futureValue - beforeMonths).ToString("C"),15} | {this.futureValue.ToString("C"),15} |--\n");
+            this.futureValue = beforeWithdraw * Math.Pow((1 + this.dayTariff), counter);
+            Console.Write($"--| {counter,7} | {beforeWithdraw.ToString("C"),10} | {this.dayTariff * 100,5} % | {(this.futureValue - beforeWithdraw).ToString("C"),15} | {this.futureValue.ToString("C"),15} |--\n");
             counter++;
         }
         Console.Write("\n---------------------------------------------------------------------------\n");  
